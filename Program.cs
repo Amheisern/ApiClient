@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ConsoleTables;
 
 namespace GhibliStatus
 {
@@ -15,11 +16,14 @@ namespace GhibliStatus
             var responseAsStream = await client.GetStreamAsync("https://ghibliapi.herokuapp.com/people/");
             //Console.WriteLine(responseAsStream);
             var peoples = await JsonSerializer.DeserializeAsync<List<People>>(responseAsStream);
-            // Console.WriteLine(peoples[0]);
+            var table = new ConsoleTable("Name", "Gender", "Age", "Eye Color", "Eye Color");
+
             foreach (var people in peoples)
             {
-                Console.WriteLine($"The character {people.Name} has {people.EyeColor} eyes and {people.HairColor} hair.");
+                table.AddRow(people.Name, people.Gender, people.Age, people.EyeColor, people.HairColor);
+                //Console.WriteLine($"The character {people.Name} has {people.EyeColor} eyes and {people.HairColor} hair.");
             }
+            table.Write();
             //Console.WriteLine(responseAsString);
         }
     }
