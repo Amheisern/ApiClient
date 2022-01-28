@@ -24,20 +24,16 @@ namespace GhibliStatus
         // public DateTime created_at { get; set; }
         // public DateTime updated_at { get; set; }
 
-        // public string CompletedStatus
-        // {
-        //     get
-        //     {
-        //         return Complete ? "Completed" : "Not Complete";
-        //         // if (complete)
-        //         // {
-        //         //     return "Complete";
-        //         // }
-        //         // else
-        //         // {
-        //         //     return "Not Complete";
-        //         // }
-        //     }
-        // }
+        public int parsedAge
+        {
+            get
+            {
+                if (int.TryParse(Age, out int value))
+                {
+                    return int.Parse(Age);
+                }
+                return 0;
+            }
+        }
     }
 }

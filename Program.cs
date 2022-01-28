@@ -12,9 +12,30 @@ namespace GhibliStatus
     {
         static void DisplayGreeting()
         {
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("         Welcome to the Ghibli database");
-            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("                              !         !               ");
+            Console.WriteLine("                             ! !       ! !");
+            Console.WriteLine("                            ! . !     ! . !");
+            Console.WriteLine("                             !.!       !.!");
+            Console.WriteLine("                             ^ ^^^^^^^^^ ^   ");
+            Console.WriteLine("                            ^            ^  ");
+            Console.WriteLine("                          ^  (0)      (0)  ^    ");
+            Console.WriteLine("                        ^         @          ^   ");
+            Console.WriteLine("                       ^    ***************    ^    ");
+            Console.WriteLine("                    ^   *                     *  ^    ");
+            Console.WriteLine("                  ^   *      /|   /|   /|      *   ^    ");
+            Console.WriteLine("                 ^   *                          *   ^  ");
+            Console.WriteLine("                ^   *     /|   /|   /|   /|      *   ^ ");
+            Console.WriteLine("               ^   *                              *   ^ ");
+            Console.WriteLine("               ^   *                             *   ^ ");
+            Console.WriteLine("                 ^  *                            *  ^  ");
+            Console.WriteLine("                 ^  *                           *  ^   ");
+            Console.WriteLine("                   ^ *                         *  ^    ");
+            Console.WriteLine("                    ^*                        * ^    ");
+            Console.WriteLine("                      ^ *         ) (        *   ^    ");
+            Console.WriteLine("                          ^^^^^^^    ^^^^^^^    ");
+            Console.WriteLine("           ----------------------------------------------------");
+            Console.WriteLine("                     Welcome to the Ghibli database");
+            Console.WriteLine("           ----------------------------------------------------");
             Console.WriteLine();
         }
 
@@ -56,8 +77,8 @@ namespace GhibliStatus
                 Console.WriteLine();
                 Console.WriteLine("Please choose from the menu");
                 Console.WriteLine("(D)isplay all characters and stats");
-                Console.WriteLine(" Display all (M)ale characters");
-                Console.WriteLine("(U)pdate signed status of band");
+                Console.WriteLine("Display all (M)ale characters");
+                Console.WriteLine("Display all (F)emale characters");
                 Console.WriteLine("(Q)uit to exit menu");
                 var choice = Console.ReadLine().ToUpper();
                 var url = "https://ghibliapi.herokuapp.com/people/";
@@ -68,27 +89,10 @@ namespace GhibliStatus
                         await ShowAllPeople();
                         break;
                     case "M":
-                        var client = new HttpClient();
-                        // Make a `GET` request to the API and get back a *stream* of data.
-                        var responseAsStream = await client.GetStreamAsync(url);
-                        var peoples = await JsonSerializer.DeserializeAsync<List<People>>(responseAsStream);
-                        var allMales = peoples.Where(people => people.Gender == "Male");
-                        foreach (var people in allMales)
-                        {
-                            Console.WriteLine($"These are the names of the make characters: {people.Name}");
-                        }
-
+                        await ShowAllMale(url);
                         break;
                     case "F":
-                        var client = new HttpClient();
-                        // Make a `GET` request to the API and get back a *stream* of data.
-                        var responseAsStream = await client.GetStreamAsync(url);
-                        var peoples = await JsonSerializer.DeserializeAsync<List<People>>(responseAsStream);
-                        var allMales = peoples.Where(people => people.Gender == "Male");
-                        foreach (var people in allMales)
-                        {
-                            Console.WriteLine($"These are the names of the make characters: {people.Name}");
-                        }
+                        await ShowAllFemale(url);
                         break;
                     case "Q":
                         Console.WriteLine("Goodbye!");
@@ -105,6 +109,31 @@ namespace GhibliStatus
 
 
             //Console.WriteLine(responseAsString);
+        }
+
+        private static async Task ShowAllFemale(string url)
+        {
+            var client = new HttpClient();
+            var responseAsStream = await client.GetStreamAsync(url);
+            var peoples = await JsonSerializer.DeserializeAsync<List<People>>(responseAsStream);
+            var allFemales = peoples.Where(people => people.Gender == "Female");
+            Console.WriteLine($" This is how many female characters there are {allFemales.Count()}");
+            foreach (var people in allFemales)
+            {
+                Console.WriteLine($"These are the names of the female characters: {people.Name}");
+            }
+        }
+
+        private static async Task ShowAllMale(string url)
+        {
+            var client = new HttpClient();
+            var responseAsStream = await client.GetStreamAsync(url);
+            var peoples = await JsonSerializer.DeserializeAsync<List<People>>(responseAsStream);
+            var allMales = peoples.Where(people => people.Gender == "Male");
+            foreach (var people in allMales)
+            {
+                Console.WriteLine($"These are the names of the male characters: {people.Name} there age is {people.parsedAge}");
+            }
         }
 
         static async Task ShowAllPeople()
