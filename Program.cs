@@ -153,6 +153,21 @@ namespace GhibliStatus
             }
             table.Write();
         }
+        public class Digits
+        {
+            public static string Explode(string s)
+            {
+                var cuts = s.Split();
+                foreach (var cut in cuts)
+                {
+                    return (cut);
+                }
+                //var explode = cuts.Select(cut => cut. (cut));
+                return explode;
+                // Insert your solution here
+                return "";
+            }
+        }
     }
 }
 
